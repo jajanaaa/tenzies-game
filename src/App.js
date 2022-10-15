@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React, { useState } from "react";
+import "./App.css";
+import Die from "./Die";
+/**
+ * Challenge: Create a function `holdDice` that takes
+ * `id` as a parameter. For now, just have the function
+ * console.log(id).
+ *
+ * Then, figure out how to pass that function down to each
+ * instance of the Die component so when each one is clicked,
+ * it logs its own unique ID property. (Hint: there's more
+ * than one way to make that work, so just choose whichever
+ * you want)
+ *
+ */
 function App() {
+  const [diceArray, setDiceArray] = useState(allNewDice());
+
+  function allNewDice() {
+    const randomArray = Array(10)
+      .fill()
+      .map(() => ({
+        value: Math.ceil(Math.random() * 6),
+        isHeld: false,
+        id: nanoid(),
+      }));
+    return randomArray;
+  }
+
+  const createdDices = diceArray.map((value) => {
+    return <Die value={value.value} isHeld={value.isHeld} key={value.id} />;
+  });
+
+  function rerenderDice() {
+    setDiceArray(allNewDice());
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="App">
+      <div className="die-wrapper">{createdDices}</div>
+      <button onClick={rerenderDice}>Roll</button>
+    </main>
   );
 }
 
