@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./App.css";
 import Die from "./Die";
+import { v4 as uuidv4 } from "uuid";
+console.log(uuidv4());
 /**
  * Challenge: Create a function `holdDice` that takes
  * `id` as a parameter. For now, just have the function
@@ -22,12 +24,13 @@ function App() {
       .map(() => ({
         value: Math.ceil(Math.random() * 6),
         isHeld: false,
+        id: uuidv4(),
       }));
     return randomArray;
   }
 
   const createdDices = diceArray.map((value) => {
-    return <Die value={value.value} isHeld={value.isHeld} />;
+    return <Die value={value.value} isHeld={value.isHeld} key={value.id} />;
   });
 
   function rerenderDice() {
