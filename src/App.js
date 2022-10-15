@@ -22,13 +22,12 @@ function App() {
       .map(() => ({
         value: Math.ceil(Math.random() * 6),
         isHeld: false,
-        id: nanoid(),
       }));
     return randomArray;
   }
 
   const createdDices = diceArray.map((value) => {
-    return <Die value={value.value} isHeld={value.isHeld} key={value.id} />;
+    return <Die value={value.value} isHeld={value.isHeld} />;
   });
 
   function rerenderDice() {
