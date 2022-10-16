@@ -1,44 +1,39 @@
-/* font-family: 'Inter', sans-serif;
-font-family: 'Karla', sans-serif; */
-
 .App {
-  background-color: #f5f5f5;
   width: 320px;
   height: 320px;
-  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
+  background-color: #f5f5f5;
 }
 
-.Die {
-  width: 36px;
-  height: 36px;
-  background-color: #ffffff;
-  border-radius: 4px;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
-  font-family: "Karla", sans-serif;
-  font-weight: 700;
-  font-size: 20.5px;
-  color: #2b283a;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-.die-wrapper {
+.dice-wrapper {
   display: grid;
   grid-template: 2fr / repeat(5, 1fr);
   gap: 18px;
 }
 
+.Dice {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  font-family: "Karla", sans-serif;
+  font-weight: 700;
+  font-size: 20.5px;
+  color: #2b283a;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
 button {
   width: 100px;
   height: 36px;
-  background: #5035ff;
-  box-shadow: 0px 3.2px 7.68px rgba(0, 0, 0, 0.18);
   border-radius: 4px;
   font-family: "Karla";
   font-weight: 700;
@@ -46,6 +41,8 @@ button {
   color: #ffffff;
   border: none;
   margin-top: 26px;
+  background: #5035ff;
+  box-shadow: 0px 3.2px 7.68px rgba(0, 0, 0, 0.18);
   cursor: pointer;
 }
 
@@ -71,8 +68,8 @@ p {
   font-size: 13px;
   line-height: 16px;
   letter-spacing: -0.03em;
-  color: #4a4e74;
   text-align: center;
   max-width: 230px;
   margin: 15px 0;
+  color: #4a4e74;
 }

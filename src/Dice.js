@@ -1,9 +1,9 @@
 import React from "react";
 
-function Die(props) {
+function Dice(props) {
   return (
     <div
-      className={`Die ${props.isHeld ? "green" : null}`}
+      className={`Dice ${props.isHeld ? "green" : null}`}
       onClick={props.holdDice}
     >
       {props.value}
@@ -11,4 +11,4 @@ function Die(props) {
   );
 }
 
-export default Die;
+export default Dice;

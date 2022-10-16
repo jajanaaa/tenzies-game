@@ -1,29 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
-import Die from "./Die";
-import { v4 as uuidv4 } from "uuid";
+import Dice from "./Dice";
+import { v4 as uuidv4 } from "uuid"; // random id
 import Confetti from "react-confetti";
-/**
- * Challenge: Tie off loose ends!
- * 1. If tenzies is true, Change the button text to "New Game"
- * 2. If tenzies is true, use the "react-confetti" package to
- *    render the <Confetti /> component 🎉
- *
- *    Hint: don't worry about the `height` and `width` props
- *    it mentions in the documentation.
- */
+import "./App.css";
 
 function App() {
   const [diceArray, setDiceArray] = useState(allNewDice());
-  const [tenzies, setTenzies] = useState(false);
-
-  useEffect(() => {
-    if (
-      diceArray.every((val) => val.value === diceArray[0].value && val.isHeld)
-    ) {
-      setTenzies(true);
-    }
-  }, [diceArray]);
+  const [tenzies, setTenzies] = useState(false); // check if a user won
 
   function allNewDice() {
     const randomArray = Array(10)
@@ -33,35 +16,37 @@ function App() {
         isHeld: false,
         id: uuidv4(),
       }));
-    return randomArray;
+    return randomArray; // return array of 10 elements with random numbers from 1 to 6
   }
 
-  function rerenderDice() {
-    setDiceArray((prevDice) =>
-      prevDice.map((dice) => {
-        return dice.isHeld
-          ? dice
-          : { ...dice, value: Math.ceil(Math.random() * 6), id: uuidv4() };
-      })
-    );
-    if (tenzies) {
-      setDiceArray(allNewDice());
+  useEffect(() => {
+    if (
+      diceArray.every(
+        (dice) => dice.value === diceArray[0].value && dice.isHeld
+      )
+    ) {
+      setTenzies(true);
+    }
+  }, [diceArray]);
+
+  function rollDice() {
+    if (!tenzies) {
+      setDiceArray((prevDice) =>
+        prevDice.map((dice) => {
+          return dice.isHeld
+            ? dice
+            : {
+                value: Math.ceil(Math.random() * 6),
+                isHeld: false,
+                id: uuidv4(),
+              };
+        })
+      );
+    } else {
       setTenzies(false);
+      setDiceArray(allNewDice());
     }
   }
-
-  // function rollDice() {
-  //   if (!tenzies) {
-  //     setDice((oldDice) =>
-  //       oldDice.map((die) => {
-  //         return die.isHeld ? die : generateNewDie();
-  //       })
-  //     );
-  //   } else {
-  //     setTenzies(false);
-  //     setDice(allNewDice());
-  //   }
-  // }
 
   function holdDice(id) {
     setDiceArray((prevDice) =>
@@ -72,7 +57,7 @@ function App() {
   }
 
   const createdDices = diceArray.map((dice) => (
-    <Die
+    <Dice
       value={dice.value}
       isHeld={dice.isHeld}
       key={dice.id}
@@ -87,8 +72,8 @@ function App() {
         Roll until all dice are the same. Click each die to freeze it at its
         current value between rolls.
       </p>
-      <div className="die-wrapper">{createdDices}</div>
-      <button onClick={rerenderDice}>{tenzies ? "New Game" : "Roll"}</button>
+      <div className="dice-wrapper">{createdDices}</div>
+      <button onClick={rollDice}>{tenzies ? "New Game" : "Roll"}</button>
       {tenzies && <Confetti />}
     </main>
   );
