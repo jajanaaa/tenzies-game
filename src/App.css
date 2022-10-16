@@ -35,7 +35,7 @@ font-family: 'Karla', sans-serif; */
 }
 
 button {
-  width: 92px;
+  width: 100px;
   height: 36px;
   background: #5035ff;
   box-shadow: 0px 3.2px 7.68px rgba(0, 0, 0, 0.18);
@@ -55,4 +55,24 @@ button:active {
 
 .green {
   background-color: #59e391;
+}
+
+h1 {
+  font-family: "Karla", sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.03em;
+  color: #2b283a;
+}
+
+p {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: -0.03em;
+  color: #4a4e74;
+  text-align: center;
+  max-width: 230px;
+  margin: 15px 0;
 }

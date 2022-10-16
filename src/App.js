@@ -1,22 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Die from "./Die";
 import { v4 as uuidv4 } from "uuid";
-console.log(uuidv4());
+import Confetti from "react-confetti";
 /**
- * Challenge: Create a function `holdDice` that takes
- * `id` as a parameter. For now, just have the function
- * console.log(id).
+ * Challenge: Tie off loose ends!
+ * 1. If tenzies is true, Change the button text to "New Game"
+ * 2. If tenzies is true, use the "react-confetti" package to
+ *    render the <Confetti /> component 🎉
  *
- * Then, figure out how to pass that function down to each
- * instance of the Die component so when each one is clicked,
- * it logs its own unique ID property. (Hint: there's more
- * than one way to make that work, so just choose whichever
- * you want)
- *
+ *    Hint: don't worry about the `height` and `width` props
+ *    it mentions in the documentation.
  */
+
 function App() {
   const [diceArray, setDiceArray] = useState(allNewDice());
+  const [tenzies, setTenzies] = useState(false);
+
+  useEffect(() => {
+    if (
+      diceArray.every((val) => val.value === diceArray[0].value && val.isHeld)
+    ) {
+      setTenzies(true);
+    }
+  }, [diceArray]);
 
   function allNewDice() {
     const randomArray = Array(10)
@@ -29,18 +36,60 @@ function App() {
     return randomArray;
   }
 
-  const createdDices = diceArray.map((value) => {
-    return <Die value={value.value} isHeld={value.isHeld} key={value.id} />;
-  });
-
   function rerenderDice() {
-    setDiceArray(allNewDice());
+    setDiceArray((prevDice) =>
+      prevDice.map((dice) => {
+        return dice.isHeld
+          ? dice
+          : { ...dice, value: Math.ceil(Math.random() * 6), id: uuidv4() };
+      })
+    );
+    if (tenzies) {
+      setDiceArray(allNewDice());
+      setTenzies(false);
+    }
   }
+
+  // function rollDice() {
+  //   if (!tenzies) {
+  //     setDice((oldDice) =>
+  //       oldDice.map((die) => {
+  //         return die.isHeld ? die : generateNewDie();
+  //       })
+  //     );
+  //   } else {
+  //     setTenzies(false);
+  //     setDice(allNewDice());
+  //   }
+  // }
+
+  function holdDice(id) {
+    setDiceArray((prevDice) =>
+      prevDice.map((dice) => {
+        return id === dice.id ? { ...dice, isHeld: !dice.isHeld } : dice;
+      })
+    );
+  }
+
+  const createdDices = diceArray.map((dice) => (
+    <Die
+      value={dice.value}
+      isHeld={dice.isHeld}
+      key={dice.id}
+      holdDice={() => holdDice(dice.id)}
+    />
+  ));
 
   return (
     <main className="App">
+      <h1>Tenzies</h1>
+      <p>
+        Roll until all dice are the same. Click each die to freeze it at its
+        current value between rolls.
+      </p>
       <div className="die-wrapper">{createdDices}</div>
-      <button onClick={rerenderDice}>Roll</button>
+      <button onClick={rerenderDice}>{tenzies ? "New Game" : "Roll"}</button>
+      {tenzies && <Confetti />}
     </main>
   );
 }
